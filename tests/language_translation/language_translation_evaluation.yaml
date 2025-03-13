@@ -1,0 +1,113 @@
+prompts:
+  - file://tests/language_translation/prompts/dynamic.md
+
+providers:
+  # Choose providers based on your needs
+  - openai:gpt-4
+  # - openai:gpt-3.5-turbo
+  # - anthropic:claude-3-opus-20240229
+  # - anthropic:claude-3-sonnet-20240229
+  # - google:gemini-1.5-pro
+  # - google:gemini-1.0-pro
+
+tests:
+  - description: English to Spanish translation
+    vars:
+      source_language: English
+      target_language: Spanish
+      role: >
+        You are a professional translator with expertise in English and Spanish. You have a deep understanding 
+        of linguistic nuances, cultural contexts, and idiomatic expressions in both languages.
+      guidelines: >
+        - Maintain the original meaning, tone, and style of the text.
+        - Preserve cultural references when possible, but adapt them when necessary for the target audience.
+        - Keep formatting elements like paragraphs, bullet points, and emphasis.
+        - Translate idioms and expressions to their closest equivalents in the target language.
+        - If there are ambiguous terms or phrases, choose the most likely interpretation based on context.
+      text: >
+        The early morning fog clung to the mountains, creating a mystical atmosphere. 
+        As the sun rose, hikers prepared for their journey, checking their equipment one last time. 
+        "It's going to be a perfect day for hiking," said Maria, adjusting her backpack. 
+        The trail ahead promised breathtaking views and challenging terrain.
+    assert:
+      - type: llm-rubric
+        value: |
+          Score the translation on a scale of 1-5 based on accuracy:
+          1: Completely inaccurate, fails to convey the original meaning
+          2: Major inaccuracies that significantly alter the meaning
+          3: Some inaccuracies that somewhat alter the meaning
+          4: Minor inaccuracies that don't significantly alter the meaning
+          5: Completely accurate, fully conveys the original meaning
+        threshold: 4
+      - type: llm-rubric
+        value: |
+          Score the translation on a scale of 1-5 based on how natural it sounds in the target language:
+          1: Extremely unnatural, clearly machine-translated
+          2: Unnatural phrasing that would rarely be used by native speakers
+          3: Somewhat natural but with awkward phrasing in places
+          4: Mostly natural with minor awkward phrasing
+          5: Completely natural, indistinguishable from native speaker writing
+        threshold: 4
+      - type: llm-rubric
+        value: |
+          Score the translation on a scale of 1-5 based on preservation of tone and style:
+          1: Completely fails to preserve the original tone and style
+          2: Significantly alters the tone and style
+          3: Somewhat preserves the tone and style with notable differences
+          4: Mostly preserves the tone and style with minor differences
+          5: Perfectly preserves the original tone and style
+        threshold: 3.5
+
+  - description: English to Spanish translation (with different guidelines)
+    vars:
+      source_language: English
+      target_language: Spanish
+      role: >
+        You are a professional translator with expertise in English and Spanish. You have a deep understanding 
+        of linguistic nuances, cultural contexts, and idiomatic expressions in both languages.
+      guidelines: >
+        - Translate idioms and expressions to their closest equivalents in the target language.
+        - If there are ambiguous terms or phrases, choose the most likely interpretation based on context.
+      text: >
+        The early morning fog clung to the mountains, creating a mystical atmosphere. 
+        As the sun rose, hikers prepared for their journey, checking their equipment one last time. 
+        "It's going to be a perfect day for hiking," said Maria, adjusting her backpack. 
+        The trail ahead promised breathtaking views and challenging terrain.
+    assert:
+      - type: llm-rubric
+        value: |
+          Score the translation on a scale of 1-5 based on accuracy:
+          1: Completely inaccurate, fails to convey the original meaning
+          2: Major inaccuracies that significantly alter the meaning
+          3: Some inaccuracies that somewhat alter the meaning
+          4: Minor inaccuracies that don't significantly alter the meaning
+          5: Completely accurate, fully conveys the original meaning
+        threshold: 4
+      - type: llm-rubric
+        value: |
+          Score the translation on a scale of 1-5 based on how natural it sounds in the target language:
+          1: Extremely unnatural, clearly machine-translated
+          2: Unnatural phrasing that would rarely be used by native speakers
+          3: Somewhat natural but with awkward phrasing in places
+          4: Mostly natural with minor awkward phrasing
+          5: Completely natural, indistinguishable from native speaker writing
+        threshold: 4
+      - type: llm-rubric
+        value: |
+          Score the translation on a scale of 1-5 based on preservation of tone and style:
+          1: Completely fails to preserve the original tone and style
+          2: Significantly alters the tone and style
+          3: Somewhat preserves the tone and style with notable differences
+          4: Mostly preserves the tone and style with minor differences
+          5: Perfectly preserves the original tone and style
+        threshold: 3.5
+
+defaultTest:
+  options:
+    provider: openai:gpt-4
+    params:
+      temperature: 0.1
+      top_p: 0.95
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      timeout: 60 

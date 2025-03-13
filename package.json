@@ -1,0 +1,29 @@
+{
+  "name": "llm-evaluation-tool",
+  "version": "1.0.0",
+  "description": "A tool for evaluating LLM performance based on promptfoo",
+  "main": "index.js",
+  "scripts": {
+    "eval:language_translation": "promptfoo eval --config tests/language_translation/language_translation_evaluation.yaml --output results/language_translation_results.json",
+    "view": "promptfoo view",
+    "cache:clear": "promptfoo cache clear"
+  },
+  "keywords": [
+    "llm",
+    "evaluation",
+    "ai",
+    "promptfoo",
+    "nlp"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "promptfoo": "^0.105.1",
+    "chart.js": "^4.4.1",
+    "axios": "^1.6.2",
+    "sqlite3": "^5.1.7"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+} 
